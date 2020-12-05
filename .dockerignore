@@ -1,0 +1,8 @@
+Dockerfile
+.git/
+.direnv/
+.envrc
+.terraform/
+.dockerignore
+docker-compose.override.yml
+*.tfplan

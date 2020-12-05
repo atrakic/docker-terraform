@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -euo pipefail
+
+TF_WORKSPACE="${TF_WORKSPACE:-default}"
+
+# shellcheck disable=SC2046
+IMAGE_ID="$(basename $(pwd))-${TF_WORKSPACE}"
+BUILD_ID="${GITHUB_DATE:-$(git rev-parse --short HEAD)}"
+
+function cleanup() {
+  docker container rm --force "${IMAGE_ID}"
+}
+
+function run_in_container() {
+  docker container exec -i \
+    "$(tty -s && echo -t)" \
+    "${IMAGE_ID}" \
+    "${@}"
+}
+
+main() {
+  # git fetch --unshallow || true
+  
+  trap cleanup EXIT
+  
+  echo "Building docker container..."  
+  docker image build \
+    --build-arg BUILD_ID="${BUILD_ID}" \
+    -t "${IMAGE_ID}" \
+    .
+
+  docker container run --rm \
+    --name "${IMAGE_ID}" \
+    -v "$(pwd):/src" -w /src \
+    -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+    -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+    -e AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}" \
+    -e TF_VAR_build_id="${BUILD_ID}" \
+    --entrypoint= \
+    -d \
+    "${IMAGE_ID}" \
+    tail -f /dev/null
+}
+
+main
+#run_in_container /src/bin/aws-whoami
+run_in_container /src/bin/ci/build
+run_in_container /src/bin/ci/deploy
+run_in_container /src/bin/ci/release_artifacts
+echo "[$(basename "$0")]: done"
