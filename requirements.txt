@@ -1,0 +1,7 @@
+#azure-cli
+#awscli
+boto3
+
+# dev
+#pytest
+requests

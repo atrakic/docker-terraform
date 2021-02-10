@@ -1,26 +1,16 @@
-ARG TF_VERSION=0.14.0
+FROM python:3.7-alpine 
 
-FROM hashicorp/terraform:${TF_VERSION} as build
+WORKDIR /src
 
-ARG BUILD_ID
-ENV BUILD_ID=$BUILD_ID
-LABEL build_version="Build:${BUILD_ID}"
+ADD requirements.txt /tmp/requirements.txt
 
-ARG AWS_DEFAULT_REGION
-ENV AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+RUN pip3 install -r /tmp/requirements.txt
 
-ARG AWS_ACCESS_KEY
-ENV AWS_ACCESS_KEY=$AWS_ACCESS_KEY
+COPY --from=hashicorp/terraform:light /bin/terraform /usr/bin/terraform
 
-ARG AWS_SECRET_ACCESS_KEY
-ENV AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+VOLUME /src
 
-ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
-RUN apk add --update bash git python3 py3-pip && \
-  pip3 install boto3 awscli
+RUN terraform get
 
-WORKDIR /src/
-RUN terraform version && terraform get 
-
-ENTRYPOINT ["/bin/terraform"]
-CMD ["version"]
+ENTRYPOINT [ "terraform" ]
+CMD [ "--help" ]

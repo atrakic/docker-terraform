@@ -1,4 +1,7 @@
 # docker-terraform 
 
-Minimal Terraform IaC project with simple CI/CD setup using Docker.
+Minimal Terraform IaC project with CI/CD setup configurations alternatives:
 
+- Docker
+- Jenkins
+- GitHub actions

@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-TERRAFORM_VERSION="${TERRAFORM_VERSION:-light}"
+TERRAFORM_VERSION="${TERRAFORM_VERSION:-latest}"
 
 docker run -i --rm \
   -e ALL_PROXY \
@@ -14,9 +14,7 @@ docker run -i --rm \
   -e TF_LOG \
   -e TF_LOG_PATH \
   -e TF_IN_AUTOMATION \
-  -e AWS_ACCESS_KEY_ID \
-  -e AWS_SECRET_ACCESS_KEY \
-  -e AWS_DEFAULT_REGION \
   -e TF_VAR_environment="${TF_WORKSPACE:-default}" \
-  -v "$PWD":/app/ -w /app/ \
-  hashicorp/terraform:"${TERRAFORM_VERSION}" "$@"
+  -v "$PWD":/src/ \
+  -w /src/ \
+  docker-terraform_docker_terraform:"${TERRAFORM_VERSION}" "$@"

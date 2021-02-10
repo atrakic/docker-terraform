@@ -1,8 +1,9 @@
+README.md
 Dockerfile
 .git/
 .direnv/
 .envrc
 .terraform/
 .dockerignore
-docker-compose.override.yml
+docker-compose.yml
 *.tfplan
