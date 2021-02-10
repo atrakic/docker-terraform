@@ -1,11 +1,12 @@
 name: 'Terraform'
 
 on:
-  push:
-    branches:
-      - $default-branch
   pull_request:
-
+    paths-ignore:
+      - 'README.md'
+  push:
+    paths-ignore:
+      - 'README.md'
 jobs:
   terraform:
     name: 'Terraform'
