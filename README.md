@@ -1,7 +1,10 @@
 # docker-terraform 
 
-Minimal Terraform IaC project with CI/CD setup configurations alternatives:
+![Release](https://github.com/atrakic/docker-terraform/workflows/Release/badge.svg)
+![Terraform](https://github.com/atrakic/docker-terraform/workflows/Terraform/badge.svg)
 
-- Docker
-- Jenkins
-- GitHub actions
+A minimal Terraform IaC project with CI/CD setup configurations alternatives:
+
+- [Makefile](Makefile)
+- [Jenkins](Jenkinsfile)
+- [GitHub actions](.github/workflows/terraform.yml)
