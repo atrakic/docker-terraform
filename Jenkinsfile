@@ -6,11 +6,11 @@ node("master") {
         withCredentials([file(credentialsId: 'tfvars', variable: 'tfvars')]) {
             sh "cp $tfvars terraform.tfvars"
         }
-        sh "terraform init --get=true"
+        sh "terraform init -no-color -input=false"
     }
 
     stage("Plan") {
-        sh "terraform plan -out=plan.${BUILD_NUMBER} -no-color"
+        sh "terraform plan -no-color -input=false -out=plan.${BUILD_NUMBER}"
     }
 
     if (env.BRANCH_NAME == "master") {

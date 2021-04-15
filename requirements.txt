@@ -1,7 +1,15 @@
 #azure-cli
-#awscli
-boto3
+#azure-core
 
-# dev
+#awscli
+#boto3
+
+#google-cloud
+#google-cloud-functions
+#google-cloud-build
+#google-cloud-compute
+#google-cloud-container
+#google-cloud-monitoring
+
 #pytest
 requests

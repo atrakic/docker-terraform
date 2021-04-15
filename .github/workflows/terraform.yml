@@ -27,7 +27,7 @@ jobs:
         run: terraform --version
 
       - name: Terraform Init
-        run: terraform init -get-plugins=true -get=true -no-color -input=false
+        run: terraform init -no-color -input=false
 
       - name: Terraform validation
         id: validate

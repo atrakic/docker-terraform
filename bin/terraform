@@ -17,4 +17,4 @@ docker run -i --rm \
   -e TF_VAR_environment="${TF_WORKSPACE:-default}" \
   -v "$PWD":/src/ \
   -w /src/ \
-  docker-terraform_docker_terraform:"${TERRAFORM_VERSION}" "$@"
+  hashicorp/terraform:"${TERRAFORM_VERSION}" "$@"
